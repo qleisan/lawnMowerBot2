@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lawn3_client</string>
+    <string name="led1">LED_LESA</string>
+    <string name="out_high">ON</string>
+    <string name="out_low">OFF</string>
+    <string name="Motor1">Motor1</string>
+    <string name="Motor2">Motor2</string>
+
+</resources>
