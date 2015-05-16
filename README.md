@@ -14,6 +14,8 @@ Lawn3_server: (andoid phone used as "embedded computer" - communicating with Ard
 - imported to andoid studio (from eclipse)
 - build fails...
 
+lawn3_arduino: (ArdunioMegaADK software controls motor controller communicates with Android phone over USB)
+- should be ok
 
 ToDo:
 - fix andoid studio build issues
