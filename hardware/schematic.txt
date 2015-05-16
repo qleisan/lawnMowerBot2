@@ -1,0 +1,39 @@
+                                                                                                      +--------------------------+
+                                                                                                      |                          |
+                                                                                                      |  [DriveMotor] Left wheel |
+                                                                                                      |                          |
+                                                                                                      |                          |
+                                                                                                      |                          |
+                                                                                                      |                          |
++------------------------+                           +------------------------------+                 +--------------------------+
+|                        |                           |                              |                                             
+|  [Battery]             +-----------+---------------+  [MotorShield]               |                                             
+|                        |           |               |                              |                                             
+|                        +--------------+------------+                              |                                             
+|                        |           |  |            |                              |                                             
+|                        |           |  |            +------------------------------+                                             
++------------------------+           |  |            |                              |                                             
+                                     |  |            |  [Arduino]                   |                                             
+                                     |  |            |                              |                                             
+                                     +---------------+                              |                                             
+                                        |            |                              |                                             
+                                        +------------+                              |                                             
+                                                     |                              |                                             
+                                                     |                              |                                             
+                                                     |                              |                                             
+                                                     +------------------------------+                                             
+
+													 
+													 
+													 
+[Battery]		ZIPPY Flightmax 5000mAh 3S1P 45C								https://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=38330
+[CutMotor]		Turnigy Aerodrive SK3 - 5055-280kv Brushless Outrunner Motor 	https://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=42029
+[BESC]			TURNIGY Plush 40amp Speed Controller							https://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=32432
+[DriveMotor]	Cytron 12V, 24rpm, 170oz-in Gear Motor w / Encoder				http://www.robotshop.com/eu/en/cytron-12v-24rpm-170oz-gear-motor-encoder.html
+[Arduino]		Arduino Mega 2560												http://www.arduino.cc/en/Main/ArduinoBoardMega2560
+[MotorShield]	SparkFun Monster Moto Shield									https://www.sparkfun.com/products/10182
+											 
+Misc Mechanics:
+				Mounting Bracket for IG32 Gear Motor							http://www.robotshop.com/eu/en/mounting-bracket-ig32-gear-motor.html
+				Lynxmotion HUB-02 Universal Hub - 6mm							http://www.robotshop.com/eu/en/lynxmotion-hub-02-universal-hub.html
+																
