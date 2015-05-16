@@ -1,29 +1,45 @@
-                                                                                                      +--------------------------+
-                                                                                                      |                          |
-                                                                                                      |  [DriveMotor] Left wheel |
-                                                                                                      |                          |
-                                                                                                      |                          |
-                                                                                                      |                          |
-                                                                                                      |                          |
-+------------------------+                           +------------------------------+                 +--------------------------+
-|                        |                           |                              |                                             
-|  [Battery]             +-----------+---------------+  [MotorShield]               |                                             
-|                        |           |               |                              |                                             
-|                        +--------------+------------+                              |                                             
-|                        |           |  |            |                              |                                             
-|                        |           |  |            +------------------------------+                                             
-+------------------------+           |  |            |                              |                                             
-                                     |  |            |  [Arduino]                   |                                             
-                                     |  |            |                              |                                             
-                                     +---------------+                              |                                             
-                                        |            |                              |                                             
-                                        +------------+                              |                                             
-                                                     |                              |                                             
-                                                     |                              |                                             
-                                                     |                              |                                             
-                                                     +------------------------------+                                             
+                                                     +------------------------------+              +----------------------------+
+                                                     |                              |              |                            |
+                                                     |  [MotorShield]               |              |  [DriveMotor] Left wheel   |
+                                                     |                              |              |                            |
+                                                     |                         {A1} +--------------+ {black}                    |
+                                                     |                         {B1} +--------------+ {red}                      |
+                                                     |                              |              |                            |
+                                                     |                              |              +----------------------------+
+                                                     |                              |                                            
+                                                     |                              |              +----------------------------+
++------------------------+                           |                              |              |                            |
+|                        |                           |                              |              |  [DriveMotor] Right wheel  |
+|  [Battery]         {+} +-----------+---------------+ {+}                          |              |                            |
+|                        |           |               |                         {A2} +--------------+ {black}                    |
+|                  {GND} +--------------+------------+ {-}                     {B2} +--------------+ {red}                      |
+|                        |           |  |            |                              |              |                            |
+|                        |           |  |            +------------------------------+              +----------------------------+
++------------------------+           |  |            |                              |                                            
+                                     |  |            |  [Arduino]                   |                                            
+                                     |  |            |                              |                                            
+                                     +---------------+                              |                                            
+                                     |  |            |                              |                                            
+                                     |  +------------+                              |                                            
++------------------------+           |  |            |                              |                                            
+|                        |           |  |            |                         {GND}+----+                                       
+|  [AndroidPhone]  {USB} | <-----------------------> | {USB}                    {22}+--+ |                                       
+|                        |           |  |            +------------------------------+  | |                                       
+|                        |           |  |                                              | |                                       
+|                        |           |  |                                              | |                                       
+|                        |           |  |            +------------------------------+  | |                                       
+|                        |           |  |            |                              |  | |                                       
+|                        |           |  |            |  [BESC]                      |  | |                                      ?
++------------------------+           |  |            |                              |  | |                                       
+                                     +---------------+ {red}                  {red} |  | |                                       
+                                        |            |                      {white} +--+ |         +----------------------------+
+                                        +------------+ {black}              {black} +----+         |                            |
+                                                     |                              |              |  [CutMotor]                |
+                                                     |                         {L1} +--------------+                            |
+                                                     |                         {l2] |--------------|                            |
+                                                     |                         {L3} +--------------+                            |
+                                                     +------------------------------+              +----------------------------+
 
-                                                     
                                                      
                                                      
 [Battery]        ZIPPY Flightmax 5000mAh 3S1P 45C                                 https://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=38330
@@ -32,7 +48,8 @@
 [DriveMotor]     Cytron 12V, 24rpm, 170oz-in Gear Motor w / Encoder               http://www.robotshop.com/eu/en/cytron-12v-24rpm-170oz-gear-motor-encoder.html
 [Arduino]        Arduino Mega 2560                                                http://www.arduino.cc/en/Main/ArduinoBoardMega2560
 [MotorShield]    SparkFun Monster Moto Shield                                     https://www.sparkfun.com/products/10182
-				
+[AndroidPhone]	 e.g. HTC WildFire ("any" old phone will do)
+                
 Misc Mechanics:
                  Mounting Bracket for IG32 Gear Motor                             http://www.robotshop.com/eu/en/mounting-bracket-ig32-gear-motor.html
                  Lynxmotion HUB-02 Universal Hub - 6mm                            http://www.robotshop.com/eu/en/lynxmotion-hub-02-universal-hub.html
