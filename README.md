@@ -12,14 +12,11 @@ Lawn3_client: (Remote control app)
 
 Lawn3_server: (andoid phone used as "embedded computer" - communicating with Arduino)
 - imported to andoid studio (from eclipse)
-- build fails...
+- NB! Use Wifi "hotspot", client will try to connect to 192.168.1.1
 
 lawn3_arduino: (ArdunioMegaADK software controls motor controller communicates with Android phone over USB)
 - should be ok
 
 ToDo:
-- fix andoid studio build issues
-- upload arduino SW
-- upload HW description
 - add wire sensor and update SW for autonomous operation
 - (a lot of improvements)
