@@ -126,9 +126,9 @@ public class Lawn3clientActivity extends Activity {
 		
 		toggleGroup_enableChangeListener();
 		
-		Log.i(TAG, "Open TCP connecttion 192.168.1.91");
+		Log.i(TAG, "Open TCP connecttion 192.168.1.1");
 	   	try {
-				s = new Socket("192.168.1.91", TCP_SERVER_PORT); // <------ UGLY!
+				s = new Socket("192.168.1.1", TCP_SERVER_PORT); // <------ UGLY!
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				out = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 
