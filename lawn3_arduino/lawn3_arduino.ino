@@ -47,12 +47,8 @@ enum cutStatueE {CUTOFF, CUTON};
 movementStateE movementState;
 cutStatueE cutState;
 
-// Event handler for shell connection; called whenever data sent from Android to Microcontroller
-void adbEventHandler(Connection * connection, adb_eventType event, uint16_t length, uint8_t * data)
+void commonHandler(uint16_t length, uint8_t * data)
 {
-  // In this example Data packets contain three bytes: one for the state of each LED
-  if (event == ADB_CONNECTION_RECEIVE)
-  {
     const char * ch_p;
 
     data[length]=0;
@@ -60,17 +56,17 @@ void adbEventHandler(Connection * connection, adb_eventType event, uint16_t leng
 
     if (strcmp(ch_p, "ledon") == 0)
     {
-      Serial.println("adb: ledon");
+      Serial.println("ledon");
       digitalWrite(ledPin, HIGH);
     } 
     else if (strcmp(ch_p, "ledoff") == 0)
     {
-      Serial.println("adb: ledoff");
+      Serial.println("ledoff");
       digitalWrite(ledPin, LOW);
     }
     else if (strcmp(ch_p, "cuton") == 0)
     {
-      Serial.println("adb: cuton");
+      Serial.println("cuton");
        myservo.write(180);
        cutState = CUTON;
     }
@@ -78,31 +74,31 @@ void adbEventHandler(Connection * connection, adb_eventType event, uint16_t leng
     {
       if (cutState == CUTON)
       {
-        Serial.println("adb: cutoff");
+        Serial.println("cutoff");
         myservo.write(50);
       } else {
-        Serial.println("adb: cutoff-2");
+        Serial.println("cutoff-2");
         myservo.write(0);
       }
       cutState = CUTOFF;
     }
     else if (strcmp(ch_p, "fwd2") == 0)
     {
-      Serial.println("adb: fwd2");
+      Serial.println("fwd2");
       motorGo(0, CCW, 90);
       motorGo(1, CW, 90);
       movementState = FWD2;
     }
     else if (strcmp(ch_p, "fwd1") == 0)
     {
-      Serial.println("adb: fwd1");
+      Serial.println("fwd1");
       motorGo(0, CCW, 45);
       motorGo(1, CW, 45);
       movementState = FWD1;
     }
     else if (strcmp(ch_p, "fwd0") == 0)
     {
-      Serial.println("adb: fwd0");
+      Serial.println("fwd0");
       motorGo(0, CCW, 0);
       motorGo(1, CW, 0);
       movementState = FWD0;
@@ -110,49 +106,72 @@ void adbEventHandler(Connection * connection, adb_eventType event, uint16_t leng
     else if (strcmp(ch_p, "ccw") == 0)
     {
       if (movementState == FWD0) {
-        Serial.println("adb: ccw");
+        Serial.println("ccw");
         motorGo(0, CW, 30);
         motorGo(1, CW, 30);
         movementState = rotCCW;
       } else if (movementState == FWD1)
       {
-        Serial.println("adb: ccw-2");
+        Serial.println("ccw-2");
         motorGo(0, CW, 50);
       } else if (movementState == FWD1)
       {
-        Serial.println("adb: ccw-3");
+        Serial.println("ccw-3");
         motorGo(0, CW, 100);
       } else {
-        Serial.println("adb: ccw-rejected");
+        Serial.println("ccw-rejected");
       }
- }
+	}
     else if (strcmp(ch_p, "cw") == 0)
     {
       
       if (movementState == FWD0) {
-        Serial.println("adb: cw");
+        Serial.println("cw");
         motorGo(0, CCW, 30);
         motorGo(1, CCW, 30);
         movementState = rotCW;
       } else if (movementState == FWD1)
       {
-        Serial.println("adb: cw-2");
+        Serial.println("cw-2");
         motorGo(1, CW, 50);
       } else if (movementState == FWD1)
       {
-        Serial.println("adb: cw-3");
+        Serial.println("cw-3");
         motorGo(1, CW, 100);
       } else {
-        Serial.println("adb: cw-rejected");
+        Serial.println("cw-rejected");
       }   
     }
+	else if (strncmp(ch_p, "Lmotor",6) == 0)
+    {
+		Serial.println("Lmotor");
+		motorGo(0, CCW, 30);
+ 
+	}
+	else if (strncmp(ch_p, "Rmotor",6) == 0)
+    {
+		Serial.println("Rmotor");
+		motorGo(1, CW, 30);
+	}
     else
     {
-      Serial.print("adb: unrecognized command (");
+      Serial.print("unrecognized command (");
       Serial.print(length);
       Serial.print(") ");
       Serial.println(ch_p);
     }  
+
+}
+
+
+// Event handler for shell connection; called whenever data sent from Android to Microcontroller
+void adbEventHandler(Connection * connection, adb_eventType event, uint16_t length, uint8_t * data)
+{
+  // In this example Data packets contain three bytes: one for the state of each LED
+  if (event == ADB_CONNECTION_RECEIVE)
+  {
+    Serial.print("adb: "); 
+    commonHandler(length, data);
   }
 }
 
@@ -204,10 +223,17 @@ void myPause()
   Serial.print("myPause - exit\n");  
 }
 
+//String inData;
+uint8_t inData[50];
+int arrayPos=0;
+
 void loop()
 {
   // Poll the ADB subsystem.
+  
+  //Serial.println("before poll");
   ADB::poll();
+  //Serial.println("after poll");
 
   /*
   motorGo(0, CCW, 90);
@@ -217,6 +243,25 @@ void loop()
   motorGo(1, CCW, 0);
   delay(10000);
   */
+  
+  int incomingByte = 0; 
+  
+  if (Serial.available() > 0) {
+    char incomingByte = Serial.read();
+    //Serial.println("got something");
+    //Serial.println(incomingByte, DEC);
+    //inData+=incomingByte;
+    inData[arrayPos++]=incomingByte;
+    if (incomingByte == '\n')
+    {
+        //Serial.print("Arduino Received: ");
+        //Serial.println((const char *)inData);
+        //inData = ""; // Clear recieved buffer
+        Serial.print("serial: ");
+        commonHandler(arrayPos-1, inData);
+        arrayPos=0;
+    }
+  }
   
   if ((analogRead(cspin[0]) < CS_THRESHOLD) && (analogRead(cspin[1]) < CS_THRESHOLD))
   digitalWrite(statpin, HIGH);
