@@ -20,6 +20,9 @@ Triggers are switches, not variable.
 Your controller may be different
 """
 
+MAX_SPEED = 90
+MIN_SPEED = 15
+
 def get():
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     it = 0 #iterator
@@ -35,11 +38,20 @@ def get():
         it+=1
     return out
 
-def test():
+def main():
     while True:
-		time.sleep(1)
-		print "------------------"
-		print get()
+        time.sleep(0.2)
+        gamePad = get()
+        #print gamePad
+        Lmotor =  int(round (gamePad[1] * MAX_SPEED * -1))  # positive is speed forward (not CW or CCW)
+        Rmotor =  int(round (gamePad[3] * MAX_SPEED * -1))  # positive is speed forward (not CW or CCW)
+        if abs(Lmotor) < MIN_SPEED:
+            Lmotor = 0
+        if abs(Rmotor) < MIN_SPEED:
+            Rmotor = 0
+        buttonRightTop = gamePad[9]
+        buttonRightBottom = gamePad[11]
+        print Lmotor, Rmotor, buttonRightTop, buttonRightBottom
 
 if __name__ == "__main__":
-    test()
+    main()
