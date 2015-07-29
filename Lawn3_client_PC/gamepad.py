@@ -1,27 +1,20 @@
 import pygame
 import time
+import socket
+
+TCP_IP = '192.168.2.185'
+TCP_PORT = 21111
+
+MAX_SPEED = 90
+MIN_SPEED = 15
+
+MAX_UPDATE_FREQ = 10
 
 pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 print 'Initialized Joystick : %s' % j.get_name()
 
-"""
-Returns a vector of the following form:
-[LThumbstickX, LThumbstickY, Unknown Coupled Axis???, 
-RThumbstickX, RThumbstickY, 
-Button 1/X, Button 2/A, Button 3/B, Button 4/Y, 
-Left Bumper, Right Bumper, Left Trigger, Right Triller,
-Select, Start, Left Thumb Press, Right Thumb Press]
-
-Note:
-No D-Pad.
-Triggers are switches, not variable. 
-Your controller may be different
-"""
-
-MAX_SPEED = 90
-MIN_SPEED = 15
 
 def get():
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -38,9 +31,25 @@ def get():
         it+=1
     return out
 
+
+def readline(sock):
+    buffer = ''
+    data = True
+    count = 0;
+    while data!='\n':
+        data = sock.recv(1)
+        buffer += data
+        count+=1;
+        #print count, data
+    return buffer
+
 def main():
+
+    print("Attempting to connect: %s:%d" % (TCP_IP, TCP_PORT))
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((TCP_IP, TCP_PORT))
+    start_time = time.time()
     while True:
-        time.sleep(0.2)
         gamePad = get()
         #print gamePad
         Lmotor =  int(round (gamePad[1] * MAX_SPEED * -1))  # positive is speed forward (not CW or CCW)
@@ -51,7 +60,43 @@ def main():
             Rmotor = 0
         buttonRightTop = gamePad[9]
         buttonRightBottom = gamePad[11]
-        print Lmotor, Rmotor, buttonRightTop, buttonRightBottom
+        #print Lmotor, Rmotor, buttonRightTop, buttonRightBottom
+
+        # --- Lmotor command ---
+        str = "Lmotor %d\n" % Lmotor
+        #print str
+        s.send(str)
+        line = readline(s)
+        print line
+
+        # --- Rmotor command ---
+        str = "Rmotor %d\n" % Rmotor
+        #print str
+        s.send(str)
+        line = readline(s)
+        print line
+
+        # --- handle cut motor commands ---
+        if (buttonRightBottom==1):
+            s.send('cutoff\n')
+            line = readline(s)
+            print line
+        elif (buttonRightTop==1):
+            s.send('cuton\n')
+            line = readline(s)
+            print line
+
+        #limit update rate
+        now = time.time()
+        delay = 1.0/MAX_UPDATE_FREQ - (now - start_time)
+        print delay
+        if delay > 0:
+            time.sleep(delay)
+        else:
+            print "too slow"
+
+        start_time = time.time()
+    #s.close()
 
 if __name__ == "__main__":
     main()

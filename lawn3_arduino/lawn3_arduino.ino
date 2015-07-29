@@ -38,7 +38,6 @@ Connection * connection;
 Servo myservo;  // create servo object to control a servo
 int rotDir[2] = {0,0};
 
-int inpDir = 0;
 int inpSpeed = 0;
 
 enum colosrs_t {black, blue, green, cyan, red, purple, yellow, white, asdasd};
@@ -147,33 +146,31 @@ void commonHandler(uint16_t length, uint8_t * data)
     else if (strncmp(ch_p, "Lmotor",6) == 0)
     {        
 	Serial.println("Lmotor");
-        sscanf(ch_p,"Lmotor %d %d", &inpDir, &inpSpeed);
-        Serial.println(inpDir); 
+        sscanf(ch_p,"Lmotor %d", &inpSpeed);
         Serial.println(inpSpeed);
     
-        if (inpDir==1) //forward
+        if (inpSpeed > 0) //forward
         {
           motorGo(0, CCW, inpSpeed);
         }
         else
         {
-          motorGo(0, CW, inpSpeed);
+          motorGo(0, CW, abs(inpSpeed));
         }
     }
     else if (strncmp(ch_p, "Rmotor",6) == 0)
     {        
 	Serial.println("Rmotor");
-        sscanf(ch_p,"Rmotor %d %d", &inpDir, &inpSpeed);
-        Serial.println(inpDir); 
+        sscanf(ch_p,"Rmotor %d", &inpSpeed);
         Serial.println(inpSpeed);
     
-        if (inpDir==1) //forward
+        if (inpSpeed > 0) //forward
         {
           motorGo(1, CW, inpSpeed);
         }
         else
         {
-          motorGo(1, CCW, inpSpeed);
+          motorGo(1, CCW, abs(inpSpeed));
         }
     }
     else
